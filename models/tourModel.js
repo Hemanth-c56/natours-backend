@@ -51,6 +51,13 @@ const tourSchema = new mongoose.Schema({
         select: false
     },
     startDates: [Date]
+}, {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
+})
+
+tourSchema.virtual('durationWeeks').get(function(){ //cannot access this durationWeeks by query or simply by tours.find(durationWeeks : 1) because this is not in the databse , it is just a virtual element thats usefull and reduces the memory usage
+    return this.duration / 7;                      
 })
 
 const Tour = mongoose.model('Tour', tourSchema)
